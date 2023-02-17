@@ -74,9 +74,10 @@
                                                 <input name="password_confirmation" type="text" value="{{ old('password') }}">
                                                 
                                             </div>
-                                             
                                             
-                                            </div>
+                                             <div class='admin_flag'>
+                               
+                                            
                         
                         <div class=" text-4xl  text-right mt-36 ">
                         <span class="border border-indigo-600 rounded-xl bg-blue-200">
