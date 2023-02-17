@@ -33,5 +33,13 @@ class usersTableSeeder extends Seeder
         'password' =>Hash::make('kyozyu1'),
         'admin_flag'=>'1'
          ]);
+         
+         DB::table('users')->insert([
+        'name' => '学生１',
+        'number' => '3',
+        'email' => 'gakuse1@gakuse1',
+        'password' =>Hash::make('gakuse1'),
+        'admin_flag'=>'2'
+         ]);
     }
 }

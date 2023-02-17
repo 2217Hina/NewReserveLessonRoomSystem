@@ -82,7 +82,12 @@ Route::group(['middleware' => ['auth', 'can:general']], function () {
  Route::POST('/g_reserve_conditions', [RLRController::class, 'g_reserve_conditions']);
  Route::get('/g_reserve_rooms/{user}', [RLRController::class, 'return_g_reserve_rooms']);
  Route::POST('/g_reserve_rooms', [RLRController::class, 'g_reserve_rooms']);
+ Route::get('/g_reserve_comfirm/{user}', [RLRController::class, 'return_g_reserve_comfirm']);
+ Route::POST('/g_reserve_comfirm', [RLRController::class, 'g_reserve_comfirm']);
+ Route::get('/g_reserve_complete/{user}', [RLRController::class, 'return_g_reserve_complete']);
+ Route::POST('/g_reserve_complete', [RLRController::class, 'g_reserve_complete']);
  Route::get('/g_history', [RLRController::class, 'g_history']);
+ Route::delete('/4_cancel/{reserve}', [RLRController::class, 'g_cancel']);
 });
 
 
