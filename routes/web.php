@@ -30,8 +30,8 @@ use App\Http\Controllers\RLRController;
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-
-
+//各Top画面へ
+ Route::get('/mypage', [RLRController::class, 'mypage']);
 
 //Top画面（ユーザー登録画面への遷移）
 Route::get('/', [RLRController::class, 'TOP']);
@@ -43,9 +43,9 @@ Route::POST('/register/complete', [RLRController::class, 'register_complete']);
 
 
 
- Route::get('/mypage', [RLRController::class, 'return_mypage']);
 
-//ログイン後管理者①画面への遷移
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
 
 
 
- Route::get('/top', [RLRController::class, 'TOP']);
+
 
 //管理者①
 Route::group(['middleware' => ['auth', 'can:manage1']], function () {
