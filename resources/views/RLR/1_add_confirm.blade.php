@@ -42,14 +42,11 @@
                                
                                 
                                 <div class='password'>
-                               
+                                    <h2>パスワード:{{ $user["password"] }}</h2>
                                     <input name="user[password]" value={{ $user["password"] }} type="hidden">
                                 </div>
                                 
-                                 <div class='admin_flag'>
-                               
-                                    <input name="user[admin_flag]" value=1 type="hidden">
-                                </div>
+                                 
                                 
                                 
                                 

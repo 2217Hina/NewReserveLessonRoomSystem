@@ -32,8 +32,8 @@
                                            
                                              <div class="password">
                                                 <h2>パスワード</h2>
-                                                <input type="text" name="user[password]"  value="{{ old('user.password') }}">
-                                                 <p class="password__error" style="color:red">{{ $errors->first('user.password') }}</p>
+                                                <input type="text" name="password"  value="{{ old('password') }}">
+                                                 <p class="password__error" style="color:red">{{ $errors->first('password') }}</p>
                                             </div>
                                             
                                             

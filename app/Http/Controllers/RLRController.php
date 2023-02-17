@@ -105,6 +105,7 @@ class RLRController extends Controller
         $input = $request['user'];
         $password = $request['password'];
         $input['password']=$password;
+       
         return view('RLR/1_add_confirm')->with(['user'=>$input]);
     }
     
@@ -118,10 +119,9 @@ class RLRController extends Controller
     {
         
         $input = $request['user'];
-     
+        $admin_flag = 1;
+        $input['admin_flag']=$admin_flag;
         $user->fill($input)->save();
-      
-      
         return view('RLR/1_add_complete')->with(['user'=>$user]);
     }
     
@@ -192,7 +192,7 @@ class RLRController extends Controller
     
     
     
-     public function test()
+     public function mypage()
     {
         if( Auth::user()->admin_flag==0){
             return redirect("/1_top");
