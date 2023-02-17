@@ -152,7 +152,7 @@ class RLRController extends Controller
     }
     
     //一般ユーザー画面
-    public function general()
+    public function g_top()
     {
         return view('RLR/4_top');
     }
@@ -171,8 +171,12 @@ class RLRController extends Controller
     
      public function g_reserve_rooms(Request $request,Reserve $reserve,Room $room)
     {
-        $date = $request["reserve"]["date"];
-        $startTime = $request["reserve"]["startTime"];
+        
+        
+        session(["date" . auth()->id()=>$request["reserve"]["date"]]);
+        session(["startTime" . auth()->id()=>$request["reserve"]["startTime"]]);
+        $date = $request->session()->get("date" . auth()->id());
+        $startTime =  $request->session()->get("startTime" . auth()->id());
         $reserved_rooms = $reserve->whereDate('date',$date)->where('startTime',$startTime)->get(['room_id']);
         $reserved_room_id = [];
            foreach ($reserved_rooms as $reserved_room){
@@ -183,11 +187,60 @@ class RLRController extends Controller
         return view('RLR/4_reserve_room')->with(['empty_rooms'=>$empty_rooms]);
     }
     
-     //一般ユーザー予約履歴一覧へ
-      public function g_history()
+     public function return_g_reserve_comfirm()
     {
-        return view('RLR/4_history');
+        return view('RLR/4_reserve_comfirm')->with(['reserve'=>$reserve]);
     }
+    
+    public function g_reserve_comfirm(Request $request,Reserve $reserve)
+    {
+        
+        session(["room" . auth()->id()=>$request["reserve"]["room"]]);
+        $date = $request->session()->get("date" . auth()->id());
+        $startTime =  $request->session()->get("startTime" . auth()->id());
+        $room =  $request->session()->get("room" . auth()->id());
+        $reserve = array('date'=>$date,'startTime'=>$startTime,'room'=>$room);
+        return view('RLR/4_reserve_comfirm')->with(['reserve'=>$reserve]);
+    }
+    
+    
+     public function return_g_reserve_complete()
+    {
+        return view('RLR/4_reserve_complete');
+    }
+    
+    public function g_reserve_complete(Request $request,Reserve $reserve,Room $room)
+    {
+        
+       $input = $request['reserve'];
+    
+        $reserve["room_id"]= Room::where('number',$input["number"])->first()->id;
+   
+        $reserve->fill($input)->save();
+    
+       return view('RLR/4_reserve_complete')->with(['reserve'=>$reserve,'number'=>$input['number']]);
+    }
+    
+    
+    
+     //一般ユーザー予約履歴一覧へ
+      public function g_history(Reserve $reserve)
+    {
+      
+      
+        $my_reserves = $reserve->getByLimit();
+        return view('RLR/4_history')->with(['my_reserves'=>$my_reserves]);
+        
+    }
+    
+    //キャンセル機能
+     public function g_cancel(Reserve $reserve)
+    {
+      
+        $reserve->delete();
+        return redirect('/g_history');
+    }
+  
     
     
     

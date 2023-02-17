@@ -7,7 +7,7 @@
     </head>
     
     <body>
-         <form action="/4_reserve_consirm" method="POST">
+         <form action="/g_reserve_comfirm" method="POST">
                     @csrf
                     
                       <div class="text-4xl text-left">
@@ -20,9 +20,9 @@
                                         <select name="reserve[room]"> 
                                        
                                          @foreach( $empty_rooms as  $empty_room)
-                                          <option value=" {{ $empty_room->room_num}}">
+                                          <option value=" {{ $empty_room->number}}">
                                               
-                                              {{ $empty_room->room_num}}(最大人数：{{ $empty_room->capacity}}人)
+                                              {{ $empty_room->number}}(最大人数：{{ $empty_room->capacity}}人)
                                               
                                            
                                               
@@ -30,8 +30,10 @@
                                            
                                          @endforeach
                                     
-                                </div>
+                                </select>
                                 
+                                
+                               
                             
                             
                             
