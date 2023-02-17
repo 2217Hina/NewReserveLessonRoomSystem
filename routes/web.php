@@ -70,8 +70,17 @@ Route::group(['middleware' => ['auth', 'can:manage1']], function () {
 //管理者②
 Route::group(['middleware' => ['auth', 'can:manage2']], function () {
  Route::get('/3_top', [RLRController::class, 'manage2_top']);
- Route::get('/3_reserve',[RLRController::class,'manage2_reserve']);
- Route::get('/3_history',[RLRController::class,'manage2_history']);
+ Route::get('/3_reserve_conditions', [RLRController::class, 'return_3_reserve_conditions']);
+ Route::get('/3_reserve_rooms/{user}', [RLRController::class, 'return_3_reserve_rooms']);
+ Route::POST('/3_reserve_rooms', [RLRController::class, 'manage2_reserve_rooms']);
+ Route::get('/3_reserve_comfirm/{user}', [RLRController::class, 'return_3_reserve_comfirm']);
+ Route::POST('/3_reserve_comfirm', [RLRController::class, 'manage2_reserve_comfirm']);
+ Route::get('/3_reserve_complete/{user}', [RLRController::class, 'return_3_reserve_complete']);
+ Route::POST('/3_reserve_complete', [RLRController::class, 'manage2_reserve_complete']);
+ 
+ Route::get('/3_history', [RLRController::class, 'manage2_history']);
+ Route::delete('/3_cancel/{reserve}', [RLRController::class, 'manage2_cancel']);
+ 
  Route::get('/3_manage_rooms',[RLRController::class,'manage2_manage_rooms']);
 });
 

@@ -10,7 +10,7 @@
     <body>
         
         <h1>
-            <a href=/3_reserve >・練習室予約</a>
+            <a href=/3_reserve_conditions >・練習室予約</a>
         </h1>
          <h1>
             <a href=/3_history >・予約一覧</a>
