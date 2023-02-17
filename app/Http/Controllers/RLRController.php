@@ -133,16 +133,89 @@ class RLRController extends Controller
         return view('RLR/3_top');
     }
     
-    //管理者②予約画面へ
-     public function manage2_reserve()
+    //管理者②予約画面(日時）
+    public function return_3_reserve_conditions()
     {
-        return view('RLR/3_reserve');
+        return view('RLR/3_reserve_conditions');
     }
     
-    //管理者②予約履歴一覧へ
-     public function manage2_history()
+   //管理者②予約画面（部屋）
+   public function return_3_reserve_rooms()
+   {
+       return view('RLR/3_reserve_room')->with(['empty_rooms'=>$empty_rooms]);
+   }
+    
+     public function manage2_reserve_rooms(Request $request,Reserve $reserve,Room $room)
     {
-        return view('RLR/3_history');
+        
+        
+        session(["date" . auth()->id()=>$request["reserve"]["date"]]);
+        session(["startTime" . auth()->id()=>$request["reserve"]["startTime"]]);
+        $date = $request->session()->get("date" . auth()->id());
+        $startTime =  $request->session()->get("startTime" . auth()->id());
+        $reserved_rooms = $reserve->whereDate('date',$date)->where('startTime',$startTime)->get(['room_id']);
+        $reserved_room_id = [];
+           foreach ($reserved_rooms as $reserved_room){
+               array_push($reserved_room_id, $reserved_room->room_id);
+           }
+        $empty_rooms= $room-> whereNotIn ('id',$reserved_room_id)->get(['number','capacity']);
+       
+        return view('RLR/3_reserve_room')->with(['empty_rooms'=>$empty_rooms]);
+    }
+    
+    
+    //管理者②予約内容確認
+     public function return_3_reserve_comfirm()
+    {
+        return view('RLR/3_reserve_comfirm')->with(['reserve'=>$reserve]);
+    }
+    
+    public function manage2_reserve_comfirm(Request $request,Reserve $reserve)
+    {
+        
+        session(["room" . auth()->id()=>$request["reserve"]["room"]]);
+        $date = $request->session()->get("date" . auth()->id());
+        $startTime =  $request->session()->get("startTime" . auth()->id());
+        $room =  $request->session()->get("room" . auth()->id());
+        $reserve = array('date'=>$date,'startTime'=>$startTime,'room'=>$room);
+        return view('RLR/3_reserve_comfirm')->with(['reserve'=>$reserve]);
+    }
+    
+    //管理者②予約完了
+     public function return_3_reserve_complete()
+    {
+        return view('RLR/3_reserve_complete');
+    }
+    
+    public function manage2_reserve_complete(Request $request,Reserve $reserve,Room $room)
+    {
+        
+       $input = $request['reserve'];
+    
+        $reserve["room_id"]= Room::where('number',$input["number"])->first()->id;
+   
+        $reserve->fill($input)->save();
+    
+       return view('RLR/3_reserve_complete')->with(['reserve'=>$reserve,'number'=>$input['number']]);
+    }
+    
+    
+    //管理者②予約履歴一覧へ
+     public function manage2_history(Reserve $reserve)
+    {
+      
+      
+        $my_reserves = $reserve->getByLimit();
+        return view('RLR/3_history')->with(['my_reserves'=>$my_reserves]);
+        
+    }
+    
+    //キャンセル機能
+     public function manage2_cancel(Reserve $reserve)
+    {
+      
+        $reserve->delete();
+        return redirect('/3_history');
     }
     
     //管理者②施設情報管理画面へ
@@ -187,6 +260,7 @@ class RLRController extends Controller
         return view('RLR/4_reserve_room')->with(['empty_rooms'=>$empty_rooms]);
     }
     
+      //一般ユーザー予約内容確認
      public function return_g_reserve_comfirm()
     {
         return view('RLR/4_reserve_comfirm')->with(['reserve'=>$reserve]);
@@ -202,8 +276,8 @@ class RLRController extends Controller
         $reserve = array('date'=>$date,'startTime'=>$startTime,'room'=>$room);
         return view('RLR/4_reserve_comfirm')->with(['reserve'=>$reserve]);
     }
-    
-    
+     
+     //一般ユーザー予約完了
      public function return_g_reserve_complete()
     {
         return view('RLR/4_reserve_complete');

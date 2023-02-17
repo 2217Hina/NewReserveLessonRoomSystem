@@ -1,4 +1,4 @@
-  <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <title>Blog</title>
@@ -9,8 +9,8 @@
     <body>
  
  <div class="flex flex-col w-1/2 mt-10 m-auto">
-        
-            
+         
+         
              
                <div class="text-4xl text-left">
                     <h1 class="title">以下の内容で予約しました</h1>
