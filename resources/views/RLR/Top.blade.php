@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <title>Blog</title>
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    </head>
-    
-    <body>
+@extends('layouts.app')
+
+@section('title', 'タイトル')
+
+@section('content')
+
+@include('parts.header')
         @csrf
         
-        <div class=explain>
+        <div class="text-blue-500">
             <h2>・ユーザー登録をして、ログイン後のマイページから予約を行なってください</h2>
             <h2>・予約のキャンセルは、『予約履歴一覧』から行います</h2>
         </div>
         
-         <h1 class='register'>
+         <h1>
               <a href="/register">ユーザー登録</a>
 　       </h1> 
 　       
@@ -24,6 +21,4 @@
 　       </h1>
      
         
-    </body>
-     
-</html>
+   @endsection

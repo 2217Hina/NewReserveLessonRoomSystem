@@ -20,6 +20,8 @@ use App\Models\Room;
 use Carbon\Carbon;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ManagerRequest;
+use App\Http\Requests\ManageRoomsRequest;
+use App\Http\Requests\ManageRoomsDetailRequest;
 use Illuminate\Support\Facades\Gate;
 
 
@@ -218,11 +220,122 @@ class RLRController extends Controller
         return redirect('/3_history');
     }
     
+    //管理者②全体予約履歴閲覧
+     public function return_3_all_date(Reserve $reserve)
+    {
+      
+      return view("RLR/3_all_date");
+    }
+     
+     public function return_3_all_history(Reserve $reserve)
+    {
+      
+      return view("RLR/3_all_history");
+    }
+    
+     public function manage2_all_history(Request $request,Reserve $reserve,User $user,Room $room)
+    {
+            $date = $request['date'];
+            $details = $reserve->where('date',$date)->get();
+            $infos = array();
+            foreach($details as $detail)
+            {
+              $user_id = $detail->user_id;
+              $user_name = $user->find($user_id)->name;
+              
+              $room_id = $detail->room_id;
+              $number = $room->find($room_id)->number;
+              
+              $infos[] = array(
+                  "user_name" => $user_name,
+                  "startTime" => $detail->startTime,
+                  "number" => $number
+                  );
+              
+            }
+      
+      
+      
+      return view('RLR/3_all_history')->with(['infoss'=>$infos]);
+    }
+    
+    
+    
     //管理者②施設情報管理画面へ
-     public function manage2_manage_rooms()
+     public function return_3_manage_rooms()
     {
         return view('RLR/3_manage_rooms');
     }
+     public function manage2_manage_request()
+    {
+        return view('RLR/3_manage_request');
+    }
+    
+    public function return_3_manage_add()
+    {
+        return view('RLR/3_manage_add');
+    }
+    
+    public function manage2_manage_add(ManageRoomsRequest $request)
+    {
+        $input = $request['request'];
+        return view('RLR/3_manage_add')->with(['request'=>(int)$input]);
+    }
+    
+    //施設情報追加完了
+    public function return_3_manage_complete()
+    {
+        return view('RLR/3_manage_complete');
+    }
+    
+    public function manage2_manage_complete(Request $request,Room $room)
+    {
+        $inputs = $request['room'];
+       
+      
+      foreach($inputs as $input)
+        {
+        $room = new Room;
+        $room->fill($input)->save();
+        }
+        
+        return  view('RLR/3_manage_complete')->with(['rooms'=>$inputs]);
+    }
+    
+    //施設管理ページ
+    
+    
+    public function manage2_manage_all(Request $request,Reserve $reserve,User $user,Room $room)
+    {
+           
+            $details = $room->all();
+            $infos = array();
+            foreach($details as $detail)
+            {
+              $id = $detail->id;
+              $number = $detail->number;
+              $capacity = $detail->capacity;
+              $piano= $detail->piano;
+              
+              $infos[] = array(
+                  "id" => $id,
+                  "number" => $number,
+                  "capacity" => $detail->capacity,
+                  "piano" => $piano
+                  );
+              
+            }
+           
+            return view('RLR/3_manage_all')->with(['infos'=>$infos]);
+    }
+    
+     public function manage2_delete(Room $room)
+    {
+      
+        $room->delete();
+        return redirect('/3_manage_all');
+    }
+    
     
     //一般ユーザー画面
     public function g_top()
@@ -303,6 +416,15 @@ class RLRController extends Controller
       
       
         $my_reserves = $reserve->getByLimit();
+        // foreach($my_reserves as $i)
+        // {
+        //     $reserve = new Reserve;
+        //     $room = new Room;
+           
+        //     $info = $room->where('id',$i["room_id"])->get();
+        //     $room_number = $info->number;
+           
+        // }
         return view('RLR/4_history')->with(['my_reserves'=>$my_reserves]);
         
     }

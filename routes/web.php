@@ -81,7 +81,19 @@ Route::group(['middleware' => ['auth', 'can:manage2']], function () {
  Route::get('/3_history', [RLRController::class, 'manage2_history']);
  Route::delete('/3_cancel/{reserve}', [RLRController::class, 'manage2_cancel']);
  
- Route::get('/3_manage_rooms',[RLRController::class,'manage2_manage_rooms']);
+ Route::get('/3_all_date', [RLRController::class, 'return_3_all_date']);
+ Route::get('/3_all_history/{user}', [RLRController::class, 'return_3_all_history']);
+ Route::POST('/3_all_history', [RLRController::class, 'manage2_all_history']);
+ 
+ Route::get('/3_manage_rooms',[RLRController::class,'return_3_manage_rooms']);
+ Route::get('/3_manage_request',[RLRController::class,'manage2_manage_request']);
+ Route::get('/3_manage_add/{user}', [RLRController::class, 'return_3_manage_add']);
+ Route::POST('/3_manage_add', [RLRController::class, 'manage2_manage_add']);
+ Route::get('/3_manage_complete/{user}', [RLRController::class, 'return_3_manage_complete']);
+ Route::POST('/3_manage_complete', [RLRController::class, 'manage2_manage_complete']);
+ 
+ Route::get('/3_manage_all',[RLRController::class,'manage2_manage_all']);
+ Route::delete('/3_manage_delete/{room}', [RLRController::class, 'manage2_delete']);
 });
 
 //一般ユーザー
