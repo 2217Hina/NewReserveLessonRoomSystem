@@ -9,7 +9,15 @@
     
     <body>
         
-        <h1>施設の追加・管理</h1>
+        <h1>
+            <a href=/3_manage_request >・施設追加</a>
+        </h1>
+         <h1>
+            <a href=/3_manage_all >・施設管理</a>
+        </h1>
+      
+       
+    
     </body>
     
 </html>

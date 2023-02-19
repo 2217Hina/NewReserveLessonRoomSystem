@@ -34,8 +34,8 @@ use Carbon\Carbon;
                        @if($my_reserve['date']>$now)
                         <div class='mt-10 border border-blue-600 bg-white'>
                             <h1 class='date'>{{ $my_reserve->date }}　{{ $my_reserve->startTime }}〜</h1>
-                            <h1 class='room'>{{ $my_reserve->room_id }}</h1>
-                            <h1 class='numOfPeople'>{{ $my_reserve->numOfPeople }}人</h1>
+                            <h1 class='room'>{{ $my_reserve->number }}</h1>
+                           
                             
                             <!--キャンセル機能-->
                             <div class="text-right">
@@ -50,8 +50,8 @@ use Carbon\Carbon;
                       @else
                        <div class='mt-10 border border-yellow-600  bg-white'>
                         <h2 class='date'>{{ $my_reserve->date }}　{{ $my_reserve->startTime }}〜</h2>
-                        <h2 class='room'>{{ $my_reserve->room_id }}</h2>
-                        <h2 class='numOfPeople'>{{ $my_reserve->numOfPeople }}人</h2>
+                        <h2 class='room'>{{ $my_reserve->number}}</h2>
+                    
                         </div>
                        @endif
                       @endforeach

@@ -12,5 +12,9 @@ class Room extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-  
+  protected $fillable = [
+        'number',
+        'capacity',
+        'piano'
+    ];
 }
